@@ -47,18 +47,8 @@ function NavBar() {
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontWeight: 900,
-                color: "inherit",
-              }}
-            >
-              Gestion de diarios
+            <Typography variant="h6" component="p">
+              Gestion
             </Typography>
           </Link>
 
@@ -111,7 +101,6 @@ function NavBar() {
             <Typography
               variant="h5"
               noWrap
-              component="a"
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -123,7 +112,7 @@ function NavBar() {
                 textDecoration: "none",
               }}
             >
-              Gestion de diarios
+              Gestion
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -178,3 +167,8 @@ function NavBar() {
   );
 }
 export default NavBar;
+
+/* 
+    
+
+*/

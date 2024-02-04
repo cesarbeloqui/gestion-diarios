@@ -7,45 +7,93 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { IconButton, Stack } from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 const columns = [
-  { id: "nombre", label: "Nombre", minWidth: 170 },
+  { id: "nombre", label: "Nombre" },
   { id: "cantidad", label: "Cantidad", minWidth: 100 },
   {
     id: "sinCargo",
     label: "Sin Cargo",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    align: "center",
+    format: (value) => value.toLocaleString("es-AR"),
   },
   {
-    id: "EntregaDeEfectivo",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
+    id: "entregaDeEfectivo",
+    label: "Entregó",
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toLocaleString("es-AR"),
   },
   {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
+    id: "detalle",
+    label: "Detalle",
+    align: "left",
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: "editar",
+    label: "Editar",
+    minWidth: 70,
+    align: "center",
     format: (value) => value.toFixed(2),
   },
 ];
 
-function createData(nombre, cantidad, sinCargo, EntregaDeEfectivo) {
-  const density = 9;
-  return { nombre, cantidad, sinCargo, EntregaDeEfectivo, density };
+function createData(
+  nombre,
+  cantidad,
+  sinCargo,
+  entregaDeEfectivo,
+  detalle,
+  idUser
+) {
+  const newSinCargo = sinCargo ? "Si" : "No";
+  return {
+    nombre,
+    cantidad,
+    sinCargo: newSinCargo,
+    entregaDeEfectivo,
+    detalle,
+    idUser,
+  };
 }
 
 const rows = [
-  createData("Abraham", 40, false, 1000),
-  createData("Chipaco", 20, false, 1000),
-  createData("Piedrabuena", 7, false, 1000),
-  createData("Pascual", 9, false, 1000),
-  createData("Rolon", 20, false, 1000),
-  createData("Municipalidad", 6, false, 1000),
+  createData(
+    "Abraham",
+    4000,
+    false,
+    1000,
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdkvxdcvxcvxcvxcvxvcvcvcxcvxcvxcvcxv",
+    1
+  ),
+  createData(
+    "Chipaco",
+    20,
+    false,
+    1000,
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
+    2
+  ),
+  createData(
+    "Piedrabuena",
+    7,
+    false,
+    1000,
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
+    3
+  ),
+  createData("Pascual", 9, false, 1000, "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk", 4),
+  createData("Rolon", 20, false, 1000, "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk", 5),
+  createData(
+    "Municipalidad",
+    6,
+    true,
+    1000,
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
+    6
+  ),
 ];
 
 export default function TableContent() {
@@ -60,7 +108,12 @@ export default function TableContent() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  const handleEditItem = (idRegistro) => {
+    console.log("Editando registro: ", idRegistro);
+  };
+  const handleRemoveItem = (idRegistro) => {
+    console.log("Eliminando registro: ", idRegistro);
+  };
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -87,10 +140,39 @@ export default function TableContent() {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.cantidad}
+                    key={row.idUser}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
+                      /* si el campo es el de editar añade los botones de eliminar y editar */
+                      if (column.id === "editar") {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            <Stack direction="row" key={row.idUser} spacing={1}>
+                              <IconButton
+                                aria-label="edit"
+                                key={`edit${column.id}`}
+                                color="primary"
+                                onClick={() => {
+                                  handleEditItem(row.idRegistro);
+                                }}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                aria-label="delete"
+                                key={`remove${column.id}`}
+                                color="primary"
+                                onClick={() => {
+                                  handleRemoveItem(row.idRegistro);
+                                }}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Stack>
+                          </TableCell>
+                        );
+                      }
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.format && typeof value === "number"
