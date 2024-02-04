@@ -9,9 +9,12 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { IconButton, Stack } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import ComboBox from "./ComboBox";
+import BotonAñadir from "./BotonAñadir";
+import NewRow from "./NewRow";
 
 const columns = [
-  { id: "nombre", label: "Nombre" },
+  { id: "nombre", label: "Nombre", minWidth: 200 },
   { id: "cantidad", label: "Cantidad", minWidth: 100 },
   {
     id: "sinCargo",
@@ -119,6 +122,7 @@ export default function TableContent() {
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
+            <BotonAñadir />
             <TableRow>
               {columns.map((column) => (
                 <TableCell
@@ -132,6 +136,7 @@ export default function TableContent() {
             </TableRow>
           </TableHead>
           <TableBody>
+            <NewRow />
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
