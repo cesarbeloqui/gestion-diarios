@@ -8,6 +8,7 @@ export default function ComboBox() {
   //value es el objeto seleccionado
   return (
     <Autocomplete
+      size="small"
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);
@@ -19,7 +20,6 @@ export default function ComboBox() {
       disablePortal
       id="combo-box-demo"
       options={top100Films}
-      sx={{ width: 200 }}
       renderInput={(params) => <TextField {...params} label="Nombre" />}
     />
   );

@@ -18,8 +18,6 @@ export default function BotonAñadir() {
         flexDirection: "row",
         alignItems: "center",
         cursor: "pointer",
-        mt: 2,
-        ml: 2,
       }}
       onClick={añadirNuevaVenta}
     >

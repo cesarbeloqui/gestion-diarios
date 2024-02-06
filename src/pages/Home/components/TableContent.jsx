@@ -7,15 +7,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import ComboBox from "./ComboBox";
 import BotonAñadir from "./BotonAñadir";
 import NewRow from "./NewRow";
+import InputValorDeDevolucion from "./InputValorDeDevolucion";
 
 const columns = [
   { id: "nombre", label: "Nombre", minWidth: 200 },
-  { id: "cantidad", label: "Cantidad", minWidth: 100 },
+  { id: "cantidad", label: "Cantidad", minWidth: 50,  },
   {
     id: "sinCargo",
     label: "Sin Cargo",
@@ -25,13 +25,20 @@ const columns = [
   {
     id: "entregaDeEfectivo",
     label: "Entregó",
-    align: "right",
+    align: "center",
     format: (value) => value.toLocaleString("es-AR"),
+  },
+  {
+    id: "devoluciones",
+    label: "Devolucion",
+    align: "left",
+    format: (value) => value.toFixed(2),
   },
   {
     id: "detalle",
     label: "Detalle",
     align: "left",
+    maxWidth: 200,
     format: (value) => value.toFixed(2),
   },
   {
@@ -48,6 +55,7 @@ function createData(
   cantidad,
   sinCargo,
   entregaDeEfectivo,
+  devoluciones,
   detalle,
   idUser
 ) {
@@ -57,6 +65,7 @@ function createData(
     cantidad,
     sinCargo: newSinCargo,
     entregaDeEfectivo,
+    devoluciones,
     detalle,
     idUser,
   };
@@ -68,6 +77,7 @@ const rows = [
     4000,
     false,
     1000,
+    "devolucion",
     "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdkvxdcvxcvxcvxcvxvcvcvcxcvxcvxcvcxv",
     1
   ),
@@ -76,6 +86,7 @@ const rows = [
     20,
     false,
     1000,
+    "devolucion",
     "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
     2
   ),
@@ -84,16 +95,34 @@ const rows = [
     7,
     false,
     1000,
+    "devolucion",
     "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
     3
   ),
-  createData("Pascual", 9, false, 1000, "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk", 4),
-  createData("Rolon", 20, false, 1000, "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk", 5),
+  createData(
+    "Pascual",
+    9,
+    false,
+    1000,
+    "devolucion",
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
+    4
+  ),
+  createData(
+    "Rolon",
+    20,
+    false,
+    1000,
+    "devolucion",
+    "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
+    5
+  ),
   createData(
     "Municipalidad",
     6,
     true,
     1000,
+    "devolucion",
     "Loremmmsfncsdjfnsdfnsdjfnsdjfnsdk",
     6
   ),
@@ -118,33 +147,54 @@ export default function TableContent() {
     console.log("Eliminando registro: ", idRegistro);
   };
   return (
-    <Paper sx={{ width: "100%", height:"100%" }}>
+    <Paper sx={{ width: "100%", height: "100%" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mt: 2,
+            ml: 2,
+            mr: 2,
+          }}
+        >
+          {/* Aca esta el boton de añadir nueva venta */}
+          <BotonAñadir />
+          <InputValorDeDevolucion />
+        </Box>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <BotonAñadir />
+            {/* Aca esta el header de la tabla */}
             <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
+              {columns.map((column) => {
+                return (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{
+                      maxWidth: column.maxWidth,
+                      minWidth: column.minWidth,
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
+            {/* Aca esta la nueva fila */}
             <NewRow />
+            {/* Estas son las ventas existentes */}
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow
                     hover
-                    role="checkbox"
-                    tabIndex={-1}
+                    /*                     role="checkbox"
+                    tabIndex={-1} */
                     key={row.idUser}
                   >
                     {columns.map((column) => {
@@ -179,7 +229,14 @@ export default function TableContent() {
                         );
                       }
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{
+                            maxWidth: column.maxWidth,
+                            wordWrap: "break-word",
+                          }}
+                        >
                           {column.format && typeof value === "number"
                             ? column.format(value)
                             : value}
