@@ -12,15 +12,17 @@ const InputValorDeDevolucion = () => {
     <Box
       sx={{
         ml: 4,
-        width: "7rem",
+        width: "50rem",
       }}
     >
+      <Typography variant="body1" sx={{mb:2}}>Valor unitario de la devolucion:</Typography>
       <Tooltip title="Aca se añade el valor de las etiquetas de devolución">
         <TextField
           type="number"
           variant="outlined"
           size="small"
           label="Valor"
+          sx={{ width: "8rem" }}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}

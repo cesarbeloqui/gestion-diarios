@@ -6,6 +6,7 @@ import InputEntregaEfectivo from "./InputEntregaEfectivo";
 import ChipDevolucion from "./ChipDevolucion";
 import InputDetalle from "./InputDetalle";
 import BotonCancelar from "./BotonCancelar";
+import InputCantidadDevolucion from "./InputCantidadDevolucion";
 
 const NewRow = () => {
   const handleDelete = () => {
@@ -26,6 +27,7 @@ const NewRow = () => {
         <InputEntregaEfectivo />
       </TableCell>
       <TableCell align="center">
+        <InputCantidadDevolucion/>
         <ChipDevolucion handleDelete={handleDelete} />
       </TableCell>
       <TableCell align="center"><InputDetalle/></TableCell>
